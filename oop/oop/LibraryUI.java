@@ -18,9 +18,12 @@ public class LibraryUI extends JFrame {
         setSize(500, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        setLayout(new GridBagLayout()); // ใช้ GridBagLayout
-        GridBagConstraints gbc = new GridBagConstraints();
         
+        // ตั้งค่าพื้นหลังเป็นรูป Library.png
+        setContentPane(new JLabel(new ImageIcon("LibraryBG.png")));
+        setLayout(new GridBagLayout()); // ใช้ GridBagLayout
+
+        GridBagConstraints gbc = new GridBagConstraints();
         ImageIcon image = new ImageIcon("LibraryLogo.png");
         setIconImage(image.getImage());
 
@@ -34,19 +37,18 @@ public class LibraryUI extends JFrame {
         JButton bookButton = new JButton("Book");
         bookButton.setFont(new Font("Peace Sans", Font.BOLD, 18));
         bookButton.setPreferredSize(buttonSize);
-        bookButton.addActionListener(e -> {new BookUI(books,boardgames,gadgets).setVisible(true); dispose();});
+        bookButton.addActionListener(e -> {new BookUI(books, boardgames, gadgets).setVisible(true); dispose();});
         dispose();
 
-        
         JButton boardgameButton = new JButton("Boardgame");
         boardgameButton.setFont(new Font("Peace Sans", Font.BOLD, 18));
         boardgameButton.setPreferredSize(buttonSize);
-        boardgameButton.addActionListener(e -> {new BoardgameUI(books,boardgames,gadgets).setVisible(true); dispose();});
+        boardgameButton.addActionListener(e -> {new BoardgameUI(books, boardgames, gadgets).setVisible(true); dispose();});
 
         JButton gadgetButton = new JButton("Gadget");
         gadgetButton.setFont(new Font("Peace Sans", Font.BOLD, 18));
         gadgetButton.setPreferredSize(buttonSize);
-        gadgetButton.addActionListener(e -> {new GadgetUI(books,boardgames,gadgets).setVisible(true); dispose();});
+        gadgetButton.addActionListener(e -> {new GadgetUI(books, boardgames, gadgets).setVisible(true); dispose();});
 
         JButton borrowedItemsButton = new JButton("Borrowed Items");
         borrowedItemsButton.setFont(new Font("Peace Sans", Font.BOLD, 18));
