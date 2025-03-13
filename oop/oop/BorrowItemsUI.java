@@ -10,16 +10,20 @@ public class BorrowItemsUI extends JFrame {
 
     public BorrowItemsUI(ArrayList<Book> books, ArrayList<Boardgame> boardgames, ArrayList<Gadget> gadgets) {
         setTitle("Borrowed Items");
-        setSize(400, 300);
+        setSize(500, 500);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
+        
+        ImageIcon image = new ImageIcon("LibraryLogo.png");
+        setIconImage(image.getImage());
 
         borrowedModel = new DefaultListModel<>();
         borrowedList = new JList<>(borrowedModel);
         add(new JScrollPane(borrowedList), BorderLayout.CENTER);
 
         JButton backButton = new JButton("Back");
-        backButton.addActionListener(e -> dispose());
+        backButton.addActionListener(e -> {dispose(); new LibraryUI(books, boardgames, gadgets).setVisible(true);});
         add(backButton, BorderLayout.SOUTH);
 
         loadBorrowedItems(books, boardgames, gadgets);

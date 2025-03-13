@@ -11,13 +11,17 @@ public class BoardgameUI extends JFrame {
     private DefaultListModel<String> listModel;
     private ArrayList<Boardgame> boardgames;
 
-    public BoardgameUI(ArrayList<Boardgame> boardgames) {
+    public BoardgameUI(ArrayList<Book> books, ArrayList<Boardgame> boardgames, ArrayList<Gadget> gadgets) {
         this.boardgames = boardgames;
 
         setTitle("Boardgame Menu");
-        setSize(400, 300);
+        setSize(500, 500);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
+        
+        ImageIcon image = new ImageIcon("LibraryLogo.png");
+        setIconImage(image.getImage());
 
         listModel = new DefaultListModel<>();
         boardgameList = new JList<>(listModel);
@@ -43,7 +47,7 @@ public class BoardgameUI extends JFrame {
 
         borrowButton.addActionListener(e -> borrowBoardgame());
         returnButton.addActionListener(e -> returnBoardgame());
-        backButton.addActionListener(e -> dispose());
+        backButton.addActionListener(e -> {dispose(); new LibraryUI(books, boardgames, gadgets).setVisible(true);});
 
         buttonPanel.add(backButton);
         buttonPanel.add(borrowButton);

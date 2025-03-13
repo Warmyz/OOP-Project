@@ -11,13 +11,17 @@ public class GadgetUI extends JFrame {
     private DefaultListModel<String> gadgetModel;
     private ArrayList<Gadget> gadgets;
 
-    public GadgetUI(ArrayList<Gadget> gadgets) {
+    public GadgetUI(ArrayList<Book> books, ArrayList<Boardgame> boardgames, ArrayList<Gadget> gadgets) {
         this.gadgets = gadgets;
 
         setTitle("Gadgets Menu");
-        setSize(400, 300);
+        setSize(500, 500);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
+        
+        ImageIcon image = new ImageIcon("LibraryLogo.png");
+        setIconImage(image.getImage());
 
         gadgetModel = new DefaultListModel<>();
         gadgetList = new JList<>(gadgetModel);
@@ -43,7 +47,7 @@ public class GadgetUI extends JFrame {
 
         borrowButton.addActionListener(e -> borrowGadget());
         returnButton.addActionListener(e -> returnGadget());
-        backButton.addActionListener(e -> dispose());
+        backButton.addActionListener(e -> {dispose(); new LibraryUI(books, boardgames, gadgets).setVisible(true);});
 
         buttonPanel.add(backButton);
         buttonPanel.add(borrowButton);

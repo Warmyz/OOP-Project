@@ -3,7 +3,6 @@ package oop;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class LoginUI extends JFrame {
@@ -18,55 +17,80 @@ public class LoginUI extends JFrame {
         this.boardgames = boardgames;
         this.gadgets = gadgets;
 
+        ImageIcon image = new ImageIcon("LibraryLogo.png");
+        setIconImage(image.getImage());
+
         setTitle("Library Login");
-        setSize(300, 250);
+        setSize(350, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);  // ทำให้หน้าต่างอยู่กลางจอ
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));  // ใช้ BoxLayout แนวตั้ง
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setLayout(new GridBagLayout());
 
-        // สร้าง JPanel สำหรับกรอกข้อมูล ID
-        JPanel idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));  // FlowLayout ชิดซ้าย
-        JLabel idLabel = new JLabel("Student ID:");
-        idField = new JTextField(15);  // ตั้งจำนวนคอลัมน์ของ JTextField
-        idField.setPreferredSize(new Dimension(200, 30));  // ขนาดที่ต้องการสำหรับช่องกรอก
-        idPanel.add(idLabel);
-        idPanel.add(idField);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10); // ระยะห่างรอบๆ
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // สร้าง JPanel สำหรับกรอกข้อมูล Password
-        JPanel passwordPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));  // FlowLayout ชิดซ้าย
-        JLabel passwordLabel = new JLabel("Password:");
-        passwordField = new JPasswordField(15);  // ตั้งจำนวนคอลัมน์ของ JPasswordField
-        passwordField.setPreferredSize(new Dimension(200, 30));  // ขนาดที่ต้องการสำหรับช่องกรอก
-        passwordPanel.add(passwordLabel);
-        passwordPanel.add(passwordField);
+        // **Library Logo**
+        ImageIcon logoIcon = new ImageIcon("LibraryLogo.png");
+        Image logoImage = logoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(logoImage);
 
-        // สร้าง JPanel สำหรับปุ่ม Login
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));  // จัดปุ่ม Login ให้อยู่ตรงกลาง
+        JLabel logoLabel = new JLabel(scaledIcon);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;  
+        gbc.anchor = GridBagConstraints.CENTER;
+        add(logoLabel, gbc);
+
+        // **Student ID**
+        gbc.gridwidth = 1;
+        gbc.weightx = 0; // ไม่ให้ Label ขยาย
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.LINE_END; 
+        add(new JLabel("Student ID:"), gbc);
+
+        idField = new JTextField(20);
+        gbc.gridx = 1;
+        gbc.weightx = 1; 
+        gbc.anchor = GridBagConstraints.LINE_START;
+        add(idField, gbc);
+
+        // **Password**
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.weightx = 0; 
+        gbc.anchor = GridBagConstraints.LINE_END;
+        add(new JLabel("Password:"), gbc);
+
+        passwordField = new JPasswordField(20);
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        add(passwordField, gbc);
+
+        // **Login Button**
         JButton loginButton = new JButton("Login");
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String userId = idField.getText();
-                String password = new String(passwordField.getPassword());
+        loginButton.setPreferredSize(new Dimension(120, 40));
+        loginButton.addActionListener((ActionEvent e) -> {
+            String userId = idField.getText();
+            String password = new String(passwordField.getPassword());
 
-                // เรียกใช้งาน authenticate จาก Member
-                if (Member.authenticate(userId, password)) {
-                    JOptionPane.showMessageDialog(null, "Login successful!");
-                    new LibraryUI(books, boardgames, gadgets).setVisible(true);
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Invalid ID or Password", "Login Failed", JOptionPane.ERROR_MESSAGE);
-                }
+            if (Member.authenticate(userId, password)) {
+                JOptionPane.showMessageDialog(null, "Login successful!");
+                new LibraryUI(books, boardgames, gadgets).setVisible(true);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid ID or Password", "Login Failed", JOptionPane.ERROR_MESSAGE);
             }
         });
-        buttonPanel.add(loginButton);
 
-        // จัดระเบียบหน้าต่างโดยใช้ BoxLayout
-        add(idPanel);  // ใส่ panel สำหรับกรอก Student ID
-        add(Box.createVerticalStrut(10));  // ระยะห่างระหว่างบรรทัดแรกกับบรรทัดสอง
-        add(passwordPanel);  // ใส่ panel สำหรับกรอก Password
-        add(Box.createVerticalStrut(10));  // ระยะห่างระหว่างบรรทัดสองกับบรรทัดสาม
-        add(buttonPanel);  // ใส่ปุ่ม Login
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2; 
+        gbc.anchor = GridBagConstraints.CENTER;
+        add(loginButton, gbc);
     }
 }
